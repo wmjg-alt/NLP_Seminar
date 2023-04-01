@@ -4,16 +4,46 @@
     <meta charset="UTF-8">
     <title>NER FLASK APP</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        table, th, td {
+          border: 1px solid white;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 15px;
+          text-align:center;
+        }
+    </style>
 </head>
 <body style="background-color: black; color:white">
-   <h1>Welcome to NER FLASK App</h1>
+    <h1>Welcome to NER FLASK App</h1>
 
-   <div id="NER" style="width:75%; font-size:150%; margin:auto; background-color:grey; color:black;"> {{ result }}</div>
+    {% if entities %}
+        <div id="NER" style="width:75%; font-size:150%; margin:auto; background-color:grey; color:black;"> {{ result }}</div>
+    {% endif %}
 
-   <form ID='user' action="{{ url_for('go_home') }}" method='post' style="text-align:center">
-        <input type="submit" style="display: none" />
-        <label for="userbox"> ENTER YOUR OWN: <textarea name="userbox" style="border-color:black;border-radius:50; width:60%; font-size:200%; "></textarea></label><br>
-        <button type="submit" style="width: 20em;  height: 2em; margin:auto">GET SPACY</button>
-   </form>
+    <form ID='user' action="{{ url_for('go_home') }}" method='post' style="text-align:center">
+        <label for="userbox"> Replace the text below and/or press the button to do SPACY NER: <br>
+            {% if entities %}
+                <textarea name="userbox" style="border-color:black;border-radius:50; width:60%; font-size:150%; "></textarea>
+            {% else %}
+                <textarea name="userbox" rows= 8
+                        style="border-color:black; width: 60%; font-size:150%; ; " 
+                        onfocus="this.value='';">{{ result }}</textarea>
+            {% endif %}
+        </label>
+        <br>
+        <button type="submit" style="width: 20em;  height: 2em; margin:auto">GET NER</button>
+    </form>
+
+    {% if entities %}
+    <table style="width:20%">
+        <th>Entity</th>
+        <th>Count</th>
+        {% for ent in entities %}
+            <tr>  <td>{{ ent.term }}</td> <td>{{ ent.occurrence }}</td></tr>
+        {% endfor %}
+    {% endif %}
+    </table>
 </body>
 </html>
