@@ -1,6 +1,6 @@
 # Assignment 2, NLP Senior Seminar
 
-#### Michael Gardner
+#### wmjg
 
 ## BUILT WITH Python 3.10.6
 
